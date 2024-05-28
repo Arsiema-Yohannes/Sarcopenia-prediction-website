@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarcopenia Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function showAdditionalFields() {
+            var model = document.getElementById("model").value;
+            var model2Features = document.getElementById("model2-features");
+            var model3Features = document.getElementById("model3-features");
+
+            if (model == "2") {
+                model2Features.style.display = "block";
+                model3Features.style.display = "none";
+            } else if (model == "3") {
+                model2Features.style.display = "none";
+                model3Features.style.display = "block";
+            } else {
+                model2Features.style.display = "none";
+                model3Features.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Sarcopenia Prediction</h1>
+        <form action="/predict" method="post">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="model">Model:</label>
+            <select id="model" name="model" onchange="showAdditionalFields()">
+                <option value="1">Model 1</option>
+                <option value="2">Model 2</option>
+                <option value="3">Model 3</option>
+            </select>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age">
+
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" name="weight">
+
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" name="height">
+
+            <label for="waist">Waist (cm):</label>
+            <input type="number" id="waist" name="waist">
+
+            <label for="hip">Hip (cm):</label>
+            <input type="number" id="hip" name="hip">
+
+            <label for="smoking">Smoking:</label>
+            <select id="smoking" name="smoking">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="packet_year">Smoking (packet/year):</label>
+            <input type="number" id="packet_year" name="packet_year">
+
+            <label for="alcohol">Alcohol:</label>
+            <select id="alcohol" name="alcohol">
+                <option value="0">None</option>
+                <option value="1">Regular</option>
+                <option value="2">Social</option>
+            </select>
+
+            <label for="diabetes">Diabetes:</label>
+            <select id="diabetes" name="diabetes">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="diabetes_duration">Diabetes Duration (years):</label>
+            <input type="number" id="diabetes_duration" name="diabetes_duration">
+
+            <label for="insulin">Insulin:</label>
+            <select id="insulin" name="insulin">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="hyperlipidemia">Hyperlipidemia:</label>
+            <select id="hyperlipidemia" name="hyperlipidemia">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="dyslipidemia_duration">Dyslipidemia Duration (years):</label>
+            <input type="number" id="dyslipidemia_duration" name="dyslipidemia_duration">
+
+            <label for="coronary_heart_disease">Coronary Heart Disease:</label>
+            <select id="coronary_heart_disease" name="coronary_heart_disease">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="coronary_heart_disease_duration">Coronary Heart Disease Duration (years):</label>
+            <input type="number" id="coronary_heart_disease_duration" name="coronary_heart_disease_duration">
+
+            <label for="hypothyroidism">Hypothyroidism:</label>
+            <select id="hypothyroidism" name="hypothyroidism">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="asthma">Asthma:</label>
+            <select id="asthma" name="asthma">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="hypertension">Hypertension:</label>
+            <select id="hypertension" name="hypertension">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <label for="hypertension_duration">Hypertension Duration (years):</label>
+            <input type="number" id="hypertension_duration" name="hypertension_duration">
+
+            <label for="education">Education:</label>
+            <select id="education" name="education">
+                <option value="0">Illiterate</option>
+                <option value="1">Primary School</option>
+                <option value="2">Middle School</option>
+                <option value="3">High School</option>
+                <option value="4">University</option>
+                <option value="5">Housewife</option>
+                <option value="6">Worker</option>
+                <option value="7">None</option>
+            </select>
+
+            <label for="occupation">Occupation:</label>
+            <select id="occupation" name="occupation">
+                <option value="0">Officer</option>
+                <option value="1">Housewife</option>
+                <option value="2">Sales Representative</option>
+                <option value="3">Hairdresser/Beautician</option>
+                <option value="4">Marketer</option>
+                <option value="5">Painter</option>
+            </select>
+
+            <label for="working_status">Working Status:</label>
+            <select id="working_status" name="working_status">
+                <option value="0">Retire</option>
+                <option value="1">Unemployed</option>
+                <option value="2">Full-Time</option>
+                <option value="3">Retired or Unemployed</option>
+                <option value="4">Full-Time or Part-Time Work</option>
+                <option value="5">Actively Working</option>
+            </select>
+
+            <label for="exercise">Exercise:</label>
+            <select id="exercise" name="exercise">
+                <option value="0">No</option>
+                <option value="1">1-2/week</option>
+                <option value="2">3-4/week</option>
+            </select>
+
+            <!-- Additional features for Model 2 -->
+            <div id="model2-features" style="display: none;">
+                <label for="cst">CST:</label>
+                <select id="cst" name="cst">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="lowcst">LowCST:</label>
+                <select id="lowcst" name="lowcst">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="gait_speed">Gait Speed (m/s):</label>
+                <input type="number" id="gait_speed" name="gait_speed">
+            </div>
+
+            <!-- Additional features for Model 3 -->
+            <div id="model3-features" style="display: none;">
+                <label for="cst">CST:</label>
+                <select id="cst" name="cst">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="lowcst">LowCST:</label>
+                <select id="lowcst" name="lowcst">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="gait_speed">Gait Speed (m/s):</label>
+                <input type="number" id="gait_speed" name="gait_speed">
+
+                <label for="low_grip_strength">Low Grip Strength:</label>
+                <select id="low_grip_strength" name="low_grip_strength">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="grip_strength">Grip Strength:</label>
+                <input type="number" id="grip_strength" name="grip_strength">
+            </div>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>
